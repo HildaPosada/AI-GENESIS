@@ -273,13 +273,25 @@
                 currentTransaction: null,
                 analysisResult: null,
 
+                // Auto-detect API URL for GitHub Codespaces or localhost
+                getApiUrl() {
+                    // If running in Codespaces, use the forwarded port URL
+                    if (window.location.hostname.includes('github.dev') || window.location.hostname.includes('githubpreview.dev')) {
+                        // Replace port 3000 with 8000 in the current URL
+                        return window.location.origin.replace('-3000.', '-8000.');
+                    }
+                    // Default to localhost for local development
+                    return 'http://localhost:8000';
+                },
+
                 async init() {
+                    console.log('API URL:', this.getApiUrl());
                     await this.checkHealth();
                 },
 
                 async checkHealth() {
                     try {
-                        const response = await fetch('http://localhost:8000/api/health');
+                        const response = await fetch(`${this.getApiUrl()}/api/health`);
                         const data = await response.json();
                         this.apiStatus = data.status;
                     } catch (error) {
@@ -294,13 +306,13 @@
 
                     try {
                         // Generate sample transaction
-                        const sampleResponse = await fetch(`http://localhost:8000/api/demo/generate-sample-transaction?fraud_type=${this.sampleType}`, {
+                        const sampleResponse = await fetch(`${this.getApiUrl()}/api/demo/generate-sample-transaction?fraud_type=${this.sampleType}`, {
                             method: 'POST'
                         });
                         this.currentTransaction = await sampleResponse.json();
 
                         // Analyze transaction
-                        const analysisResponse = await fetch('http://localhost:8000/api/analyze/transaction', {
+                        const analysisResponse = await fetch(`${this.getApiUrl()}/api/analyze/transaction`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

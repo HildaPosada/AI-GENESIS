@@ -272,14 +272,31 @@
                 sampleType: 'normal',
                 currentTransaction: null,
                 analysisResult: null,
+                apiBaseUrl: '',
 
                 async init() {
+                    // Auto-detect API URL for Codespaces/local
+                    this.apiBaseUrl = this.getApiBaseUrl();
+                    console.log('API Base URL:', this.apiBaseUrl);
                     await this.checkHealth();
+                },
+
+                getApiBaseUrl() {
+                    // Check if we're in GitHub Codespaces
+                    const currentUrl = window.location.href;
+                    if (currentUrl.includes('github.dev') || currentUrl.includes('githubpreview.dev')) {
+                        // Extract the base URL and replace port 3000 with 8000
+                        const url = new URL(currentUrl);
+                        const backendUrl = url.origin.replace('-3000.', '-8000.');
+                        return backendUrl;
+                    }
+                    // Default to localhost for local development
+                    return 'http://localhost:8000';
                 },
 
                 async checkHealth() {
                     try {
-                        const response = await fetch('http://localhost:8000/api/health');
+                        const response = await fetch(`${this.apiBaseUrl}/api/health`);
                         const data = await response.json();
                         this.apiStatus = data.status;
                     } catch (error) {
@@ -294,13 +311,13 @@
 
                     try {
                         // Generate sample transaction
-                        const sampleResponse = await fetch(`http://localhost:8000/api/demo/generate-sample-transaction?fraud_type=${this.sampleType}`, {
+                        const sampleResponse = await fetch(`${this.apiBaseUrl}/api/demo/generate-sample-transaction?fraud_type=${this.sampleType}`, {
                             method: 'POST'
                         });
                         this.currentTransaction = await sampleResponse.json();
 
                         // Analyze transaction
-                        const analysisResponse = await fetch('http://localhost:8000/api/analyze/transaction', {
+                        const analysisResponse = await fetch(`${this.apiBaseUrl}/api/analyze/transaction`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -311,7 +328,7 @@
 
                     } catch (error) {
                         console.error('Analysis failed:', error);
-                        alert('Analysis failed. Make sure the backend is running on port 8000.');
+                        alert(`Analysis failed. Error: ${error.message}\n\nMake sure the backend is running and accessible at: ${this.apiBaseUrl}`);
                     } finally {
                         this.loading = false;
                     }

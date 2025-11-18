@@ -277,8 +277,9 @@
                 getApiUrl() {
                     // If running in Codespaces, use the forwarded port URL
                     if (window.location.hostname.includes('github.dev') || window.location.hostname.includes('githubpreview.dev')) {
-                        // Replace port 3000 with 8000 in the current URL
-                        return window.location.origin.replace('-3000.', '-8000.');
+                        // Build the backend URL by replacing the port in hostname
+                        const backendHostname = window.location.hostname.replace('-3000.', '-8000.');
+                        return `${window.location.protocol}//${backendHostname}`;
                     }
                     // Default to localhost for local development
                     return 'http://localhost:8000';

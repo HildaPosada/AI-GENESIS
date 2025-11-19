@@ -213,8 +213,10 @@
                                     <span x-show="!analysisResult?.is_fraudulent">✅ TRANSACTION APPROVED</span>
                                 </div>
                                 <div class="mt-1">
-                                    Risk Level: <span x-text="analysisResult?.risk_level" class="uppercase font-bold"></span> |
-                                    Confidence: <span x-text="(analysisResult?.confidence_score * 100).toFixed(0)"></span>%
+                                    Risk Level: <span x-text="analysisResult?.risk_level" class="uppercase font-bold"></span>
+                                    <span x-show="analysisResult?.confidence_score"> | 
+                                        Confidence: <span x-text="(analysisResult?.confidence_score * 100).toFixed(0)"></span>%
+                                    </span>
                                 </div>
                             </div>
                             <div class="text-5xl">

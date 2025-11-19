@@ -114,44 +114,63 @@
         </div>
 
         <!-- Main Content -->
-        <div class="container mx-auto px-6 py-8">
-            <!-- Tabs -->
-            <div class="flex gap-4 mb-8 border-b border-gray-700">
-                <button @click="activeTab = 'transaction'" :class="activeTab === 'transaction' ? 'border-blue-500 text-blue-500' : 'border-transparent'" class="px-6 py-3 border-b-2 font-semibold transition">
-                    <i class="fas fa-credit-card mr-2"></i>Transaction Analysis
-                </button>
-                <button @click="activeTab = 'document'" :class="activeTab === 'document' ? 'border-blue-500 text-blue-500' : 'border-transparent'" class="px-6 py-3 border-b-2 font-semibold transition">
-                    <i class="fas fa-file-alt mr-2"></i>Document Analysis
-                </button>
-                <button @click="activeTab = 'workflow'" :class="activeTab === 'workflow' ? 'border-blue-500 text-blue-500' : 'border-transparent'" class="px-6 py-3 border-b-2 font-semibold transition">
-                    <i class="fas fa-project-diagram mr-2"></i>Workflows
-                </button>
-            </div>
-
-            <!-- Transaction Analysis Tab -->
-            <div x-show="activeTab === 'transaction'" class="space-y-6">
-                <div class="grid grid-cols-3 gap-6">
-                    <!-- Input Form -->
-                    <div class="col-span-1 bg-gray-800 rounded-lg p-6 shadow-xl">
-                        <h2 class="text-xl font-bold mb-4">Generate Sample Transaction</h2>
-                        <div class="space-y-4">
+        <div class="max-w-7xl mx-auto px-6 pb-20">
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- Control Panel -->
+                <div class="lg:col-span-1">
+                    <div class="glass-card rounded-3xl p-8 hover-lift">
+                        <h2 class="text-2xl font-bold mb-6">Analyze Transaction</h2>
+                        
+                        <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-medium mb-2">Transaction Type</label>
-                                <select x-model="sampleType" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                                    <option value="normal">Normal Transaction</option>
-                                    <option value="suspicious">Suspicious Transaction</option>
-                                    <option value="fraud">Fraudulent Transaction</option>
+                                <label class="block text-sm font-medium text-gray-300 mb-3">Transaction Type</label>
+                                <select x-model="sampleType" 
+                                        class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 transition">
+                                    <option value="normal" class="bg-gray-800">✅ Normal Transaction</option>
+                                    <option value="suspicious" class="bg-gray-800">⚠️ Suspicious Activity</option>
+                                    <option value="fraud" class="bg-gray-800">🚨 Fraudulent</option>
                                 </select>
                             </div>
-                            <button @click="generateSampleTransaction()" :disabled="loading" class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition">
-                                <span x-show="!loading">Generate & Analyze</span>
-                                <span x-show="loading">Analyzing...</span>
+                            
+                            <button @click="generateSampleTransaction()" 
+                                    :disabled="loading"
+                                    class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:scale-100">
+                                <span x-show="!loading" class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-sparkles"></i>
+                                    <span>Generate & Analyze</span>
+                                </span>
+                                <span x-show="loading" class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Analyzing...</span>
+                                </span>
                             </button>
                         </div>
-                    </div>
 
-                    <!-- Transaction Details -->
-                    <div class="col-span-2 bg-gray-800 rounded-lg p-6 shadow-xl">
+                        <!-- Transaction Preview -->
+                        <div x-show="currentTransaction" class="mt-8 pt-8 border-t border-white/10">
+                            <h3 class="text-lg font-semibold mb-4">Transaction Details</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Amount</span>
+                                    <span class="font-semibold" x-text="currentTransaction?.amount ? '$' + currentTransaction.amount.toFixed(2) : '-'"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Type</span>
+                                    <span class="font-semibold" x-text="currentTransaction?.transaction_type || '-'"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Merchant</span>
+                                    <span class="font-semibold" x-text="currentTransaction?.merchant_name || '-'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="lg:col-span-2">
+                    <div x-show="analysisResult" class="glass-card rounded-3xl p-8 fade-in">
                         <h2 class="text-xl font-bold mb-4">Transaction Details</h2>
                         <div x-show="currentTransaction" class="space-y-3">
                             <div class="grid grid-cols-2 gap-4">

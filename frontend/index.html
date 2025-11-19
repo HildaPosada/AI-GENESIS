@@ -57,50 +57,57 @@
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 min-h-screen text-white">
     <div x-data="fraudDetectionApp()" x-init="init()" class="min-h-screen">
-        <!-- Header -->
-        <header class="bg-gradient-to-r from-blue-900 to-purple-900 shadow-lg">
-            <div class="container mx-auto px-6 py-6">
+        
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 glass-card">
+            <div class="max-w-7xl mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold">🛡️ AI Fraud Detection System</h1>
-                        <p class="text-blue-200 mt-1">AI Genesis Hackathon 2025 - Powered by 4 AI Technologies</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold gradient-text">FraudShield AI</span>
                     </div>
-                    <div class="flex gap-4">
-                        <div class="text-right">
-                            <div class="text-sm text-blue-200">API Status</div>
-                            <div class="flex items-center gap-2 mt-1">
-                                <div :class="apiStatus === 'healthy' ? 'bg-green-500' : 'bg-red-500'" class="w-3 h-3 rounded-full animate-pulse"></div>
-                                <span x-text="apiStatus" class="font-semibold capitalize"></span>
-                            </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-2">
+                            <div :class="apiStatus === 'healthy' ? 'bg-green-400' : 'bg-red-400'" 
+                                 class="w-2 h-2 rounded-full pulse-glow"></div>
+                            <span class="text-sm text-gray-300" x-text="apiStatus === 'healthy' ? 'All Systems Operational' : 'System Offline'"></span>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
+        </nav>
 
-        <!-- Technology Stack Banner -->
-        <div class="bg-gradient-to-r from-purple-800 to-pink-800 py-4">
-            <div class="container mx-auto px-6">
-                <div class="grid grid-cols-4 gap-4 text-center">
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-brain text-3xl mb-2"></i>
-                        <div class="font-semibold">Google Gemini</div>
-                        <div class="text-xs text-purple-200">Multimodal AI</div>
+        <!-- Hero Section -->
+        <div class="pt-32 pb-20 px-6">
+            <div class="max-w-7xl mx-auto text-center fade-in">
+                <h1 class="text-6xl font-extrabold mb-6 leading-tight">
+                    Detect Fraud in 
+                    <span class="gradient-text">Real-Time</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Powered by advanced AI models including Google Gemini, Opus, and Qdrant. 
+                    Analyze transactions instantly with multi-model intelligence.
+                </p>
+                
+                <!-- Tech Stack Pills -->
+                <div class="flex flex-wrap justify-center gap-3 mb-12">
+                    <div class="glass-card px-4 py-2 rounded-full text-sm flex items-center space-x-2">
+                        <i class="fas fa-brain text-purple-400"></i>
+                        <span>Google Gemini</span>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-cogs text-3xl mb-2"></i>
-                        <div class="font-semibold">Opus</div>
-                        <div class="text-xs text-purple-200">Workflow Automation</div>
+                    <div class="glass-card px-4 py-2 rounded-full text-sm flex items-center space-x-2">
+                        <i class="fas fa-cogs text-blue-400"></i>
+                        <span>Opus AI</span>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-search text-3xl mb-2"></i>
-                        <div class="font-semibold">Qdrant</div>
-                        <div class="text-xs text-purple-200">Vector Search</div>
+                    <div class="glass-card px-4 py-2 rounded-full text-sm flex items-center space-x-2">
+                        <i class="fas fa-database text-green-400"></i>
+                        <span>Qdrant</span>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-robot text-3xl mb-2"></i>
-                        <div class="font-semibold">AI/ML API</div>
-                        <div class="text-xs text-purple-200">100+ Models</div>
+                    <div class="glass-card px-4 py-2 rounded-full text-sm flex items-center space-x-2">
+                        <i class="fas fa-robot text-pink-400"></i>
+                        <span>AI/ML API</span>
                     </div>
                 </div>
             </div>

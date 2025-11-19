@@ -310,8 +310,9 @@
                     <i class="fas fa-file-upload text-6xl mb-4"></i>
                     <p>Upload invoices, bank statements, or ID documents</p>
                     <p class="text-sm mt-2">Powered by Google Gemini Vision</p>
-                    <button class="mt-4 bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg">
-                        Upload Document
+                    <input type="file" id="documentUpload" accept="image/*,.pdf" class="hidden" @change="handleFileUpload($event)">
+                    <button @click="document.getElementById('documentUpload').click()" class="mt-4 bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition">
+                        <i class="fas fa-upload mr-2"></i>Upload Document
                     </button>
                 </div>
             </div>

@@ -404,6 +404,15 @@
                     }
                 },
 
+                handleFileUpload(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        alert(`Document uploaded: ${file.name}\n\nDocument analysis feature coming soon!\nThis will use Google Gemini Vision to analyze:\n- Invoices for irregularities\n- Bank statements for suspicious patterns\n- ID documents for authenticity`);
+                        // Reset the input
+                        event.target.value = '';
+                    }
+                },
+
                 formatTechnologies(tech) {
                     if (!tech) return '';
                     return Object.entries(tech).map(([key, value]) => {
